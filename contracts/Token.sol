@@ -12,7 +12,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract Token is ERC20, Ownable {
   using SafeMath for uint;
 
-  // add mapping to store user purchase
+  // add mapping to store user
   
   constructor (uint256 initialSupply) public ERC20("SyracuseToken", "SUT") {
     _mint(msg.sender, initialSupply);

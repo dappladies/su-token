@@ -1,6 +1,6 @@
-const { BN, ether, expectEvent, expectRevert, time } = require('@openzeppelin/test-helpers')
+const { BN, ether, expectEvent, expectRevert, time } = require('@openzeppelin/test-helpers');
 
-const Token = artifacts.require("./contracts/Token.sol")
+const Token = artifacts.require("./contracts/Token.sol");
 
 contract('Token', async (accounts) => {
   const owner = accounts[0]
@@ -9,32 +9,32 @@ contract('Token', async (accounts) => {
   
   beforeEach('set up Token contract for each test', async () => {
     tokenInstance = await Token.new(1000)
+  });
 
-  })
-
-  describe("contract setup", async () => {
+  describe("contract", async () => {
   
     it('should have the correct name and symbol', async () => {
       let name = 'SyracuseToken'
       let symbol = 'SUT'
-      callName = await tokenInstance.name()
-      callSymbol = await tokenInstance.symbol()
-      assert.equal(callName, name)
-      assert.equal(callSymbol, symbol)
-    })
+      callName = await tokenInstance.name();
+      callSymbol = await tokenInstance.symbol();
+      assert.equal(callName, name);
+      assert.equal(callSymbol, symbol);
+    });
+    it('should mint 1000 tokens', async () => {
+      tokenAmount = await tokenInstance.totalSupply();
+      assert.equal(tokenAmount, 1000);
+    });
+    it('should mint 1000 tokens for owner', async () => {
+      ownerBalance = await tokenInstance.balanceOf(owner);
+      assert.equal(ownerBalance, 1000);
+    });
+    it('should mint 100 tokens for user1', async () => {
+      await tokenInstance.buy(100, {from : user1});
+      userBalance = await tokenInstance.balanceOf(user1);
+      assert.equal(userBalance, 100);
+    });
 
-  })
-
-  describe("token issuance", async () => {
-
-    it('should emit an event when tokens have been issued', async () => {
-      let { tx } = await contributionInstance.contribute({from: user1, value: testAmount})
-      await expectEvent.inTransaction(tx, tokenInstance, 'TokensIssued', { amount: testAmount.mul(TOKENS_PER_ETH_DONATED), recipient: user1 })
-    })
-  
-  })
-
-
-
-})
+  });
+});
  
